@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDN Digital Twin</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" integrity="sha512-vc58qvvBdrDR4etbxMdlTt4GBQk1qjvyORR2nrsPsFPyrs+/u5c3+1Ct6upOgdZoIl7eq6k3a1UPDSNAQi/32A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <h1>SDN Digital Twin</h1>
+    <svg width="800" height="600"></svg>
+    <script>
+        const svg = d3.select("svg");
+        const width = +svg.attr("width");
+        const height = +svg.attr("height");
+
+        let simulation = d3.forceSimulation()
+            .force("link", d3.forceLink().id(d => d.id).distance(100))
+            .force("charge", d3.forceManyBody().strength(-300))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collide", d3.forceCollide(50)); // Evita sovrapposizioni
+
+            function updateTopology() {
+                fetch('/api/topology')
+                    .then(response => response.json())
+                    .then(data => {
+                        const nodes = [
+                            ...data.switches.map(s => ({ id: s.dpid, label: s.dpid, type: 'switch' })),
+                            ...data.hosts.map(h => ({ id: h.mac, label: h.ipv4[0] || h.mac, type: 'host' }))
+                        ];
+
+                        const links = [
+                            ...data.links.map(l => ({
+                                source: l.src.id || l.src.dpid,
+                                target: l.dst.id || l.dst.dpid
+                            }))
+                        ];
+
+                        // Associa i dati con chiavi univoche
+                        const linkSelection = svg.selectAll(".link")
+                            .data(links, d => `${d.source}-${d.target}`);
+
+                        const nodeSelection = svg.selectAll(".node")
+                            .data(nodes, d => d.id);
+
+                        const labelSelection = svg.selectAll(".label")
+                            .data(nodes, d => d.id);
+
+                        // Rimuovi nodi, link e etichette non più presenti
+                        linkSelection.exit().remove();
+                        nodeSelection.exit().remove();
+                        labelSelection.exit().remove();
+
+                        // Aggiungi nuovi link
+                        const linkEnter = linkSelection.enter()
+                            .append("line")
+                            .attr("class", "link")
+                            .attr("stroke", "#999");
+
+                        // Unisci nuovi link con i vecchi
+                        const linksMerged = linkEnter.merge(linkSelection);
+
+                        // Aggiungi nuovi nodi
+                        const nodeEnter = nodeSelection.enter()
+                            .append("circle")
+                            .attr("class", "node")
+                            .attr("r", 10)
+                            .attr("fill", d => d.type === 'switch' ? 'blue' : 'green')
+                            .call(d3.drag()
+                                .on("start", dragstarted)
+                                .on("drag", dragged)
+                                .on("end", dragended));
+
+                        // Unisci nuovi nodi con i vecchi
+                        const nodesMerged = nodeEnter.merge(nodeSelection);
+
+                        // Solleva i nodi sopra i link
+                        nodesMerged.raise();
+
+                        // Aggiungi nuove etichette
+                        const labelEnter = labelSelection.enter()
+                            .append("text")
+                            .attr("class", "label")
+                            .attr("font-size", "10px")
+                            .attr("fill", "black")
+                            .attr("text-anchor", "middle")
+                            .attr("dy", "-1.2em") // Posizionare l'etichetta sopra il nodo
+                            .text(d => d.label);
+
+                        // Unisci nuove etichette con le vecchie
+                        const labelsMerged = labelEnter.merge(labelSelection);
+
+                        // Aggiorna la simulazione
+                        simulation.nodes(nodes);
+                        simulation.force("link").links(links);
+
+                        simulation.alpha(1).restart();
+
+                        simulation.on("tick", () => {
+                            linksMerged
+                                .attr("x1", d => d.source.x)
+                                .attr("y1", d => d.source.y)
+                                .attr("x2", d => d.target.x)
+                                .attr("y2", d => d.target.y);
+
+                            nodesMerged
+                                .attr("cx", d => d.x)
+                                .attr("cy", d => d.y);
+
+                            labelsMerged
+                                .attr("x", d => d.x)
+                                .attr("y", d => d.y);
+                        });
+                    });
+            }
+
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+
+        setInterval(updateTopology, 5000);
+        updateTopology();
+    </script>
+</body>
+</html>
