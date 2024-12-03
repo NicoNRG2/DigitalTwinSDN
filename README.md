@@ -48,10 +48,9 @@ Mininet considers links only the connection between swithes, so we can't affect 
 **NETWORK VISUALIZATION:**
 
 
-the Digital Twin of the Phisical Twin can be viewed via a web page.
-Every time the user activate/deactivate a link, the topology of the Digital Twin is automatically updated, according to the changes made.
+The Digital Twin of the Phisical Twin can be viewed via a web page.
 
-Every time the user changes mode, a web server is automatically started which graphically displays the network topology and active slices.
+Every time the user activate/deactivate a link, the topology of the Digital Twin is automatically updated, according to the changes made.
 
 ![Topology](/images/server.png) 
 
@@ -104,7 +103,8 @@ Now it's possible to view the digital twin topology via web at ```http://localho
 ```
 python3 cli.py
 ```
-If required, insert the password, by default is ``` comnetsemu ```
+If required, insert the password, by default is ``` comnetsemu ```.
+
 A menù will appear. The user can follow the istruction to activate/deactivate a link.
 
 [Back to the index](#Index)
@@ -126,7 +126,9 @@ In the cli terminal, the last one, run the following commands:
 |6. Insert the second switch you want to connect, in this example ```s2```          | 
 |7. You can repeat the previous steps with different entity                         |
 
-After step 3, the link that connect switch s1 and switch s2 is disconnected and this change will appear in the web topology
+After step 3, the link that connect switch s1 and switch s2 is disconnected and this change will appear in the web topology.
+
+
 After step 6, the connection between s1 and s2 return up, and the topology will be updated accordingly
 
 [Back to the index](#Index)
