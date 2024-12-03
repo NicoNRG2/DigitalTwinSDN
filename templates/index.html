@@ -8,7 +8,9 @@
 </head>
 <body>
     <h1>SDN Digital Twin</h1>
-    <svg width="800" height="600"></svg>
+    <svg width="800" height="600" style="border: 1px solid black;">
+        <rect width="100%" height="100%" fill="white" stroke="black" />
+    </svg>
     <script>
         const svg = d3.select("svg");
         const width = +svg.attr("width");
@@ -16,9 +18,10 @@
 
         let simulation = d3.forceSimulation()
             .force("link", d3.forceLink().id(d => d.id).distance(100))
-            .force("charge", d3.forceManyBody().strength(-300))
+            .force("charge", d3.forceManyBody().strength(-250))
             .force("center", d3.forceCenter(width / 2, height / 2))
             .force("collide", d3.forceCollide(50)); // Evita sovrapposizioni
+            
 
             function updateTopology() {
                 fetch('/api/topology')
@@ -97,15 +100,24 @@
                         simulation.alpha(1).restart();
 
                         simulation.on("tick", () => {
+                            const padding = 10; // Spazio tra i nodi e il bordo del rettangolo
                             linksMerged
                                 .attr("x1", d => d.source.x)
                                 .attr("y1", d => d.source.y)
                                 .attr("x2", d => d.target.x)
                                 .attr("y2", d => d.target.y);
 
-                            nodesMerged
-                                .attr("cx", d => d.x)
-                                .attr("cy", d => d.y);
+                                nodesMerged
+                                    .attr("cx", d => {
+                                        // Mantieni i nodi all'interno del rettangolo
+                                        d.x = Math.max(padding, Math.min(width - padding, d.x));
+                                        return d.x;
+                                    })
+                                    .attr("cy", d => {
+                                        // Mantieni i nodi all'interno del rettangolo
+                                        d.y = Math.max(padding, Math.min(height - padding, d.y));
+                                        return d.y;
+                                    });
 
                             labelsMerged
                                 .attr("x", d => d.x)

@@ -10,7 +10,10 @@ Run on one shell:
 ryu-manager ryu.app.rest_topology ryu.app.ofctl_rest ryu.app.simple_switch_13 --observe-links
 
 Run on another shell:
-sudo mn --topo tree,2 --controller remote
+python3 app.py
+
 
 Run on another shell:
-python3 app.py
+python3 cli.py
+
+
