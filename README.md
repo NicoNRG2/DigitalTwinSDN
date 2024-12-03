@@ -121,14 +121,13 @@ In the cli terminal, the last one, run the following commands:
 |1. Select: ```1```  to enter in the deactivation mode                              |
 |2. Insert the first switch you want to disconnect, for example ```s1```            |  
 |3. Insert the second switch you want to disconnect, for example ```s2```           |  
-Now, the link that connect switch s1 and switch s2 is disconnected and this change will appear in the web topology
-
 |4. Select: ```2```  to enter in the activation mode                                |
 |5. Insert the first switch you want to connect: in this example ```s1```           |  
 |6. Insert the second switch you want to connect, in this example ```s2```          | 
-
-At this point, the connection between s1 and s2 return up, and the topology will be updated accordingly
 |7. You can repeat the previous steps with different entity                         |
+
+After step 3, the link that connect switch s1 and switch s2 is disconnected and this change will appear in the web topology
+After step 6, the connection between s1 and s2 return up, and the topology will be updated accordingly
 
 [Back to the index](#Index)
 
