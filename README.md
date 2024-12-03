@@ -1,21 +1,3 @@
-# DigitalTwinSDN
-
-
-
-Run on one shell:
-
-
-Run on another shell:
-python3 app.py
-
-
-Run on another shell:
-python3 cli.py
-
-
-
-/////////////////////////////////////////////////////////
-
 # DigitalTwin SDN
 ![Topology](/images/topo2.png) 
 
@@ -115,10 +97,7 @@ ryu-manager ryu.app.rest_topology ryu.app.ofctl_rest ryu.app.simple_switch_13 --
 ```
 python3 app.py
 ```
-Now it's possible to view the digital twin topology via web at
-```
-http://localhost:5000
-```
+Now it's possible to view the digital twin topology via web at ```http://localhost:5000```
 
 5. In the third terminal, start the CLI:
 
@@ -136,24 +115,17 @@ This section will explain a complete usage example of this application.
 It is based on the demo video in the "Link" section.
 Suppose you have already done the installation and have 2 open terminals (as explained in the previous section).
 
-| Firts terminal                                                                     | Second terminal                                     |
-|------------------------------------------------------------------------------------|-----------------------------------------------------|
-|  1. Run: ```make```                                   |  2. Run: ```python3 run.py```. The CLI will appear  ![menu](/images/menu.png)
-|  4. Run diagnostic commands, such as ```pingall``` or ```iperf h1 h4```                                                |  3. Choose a mode, for example:   ```1```. A web browser will appear to graphically display the active slices based on the chosen mode                                                           |
-|  ![ping](/images/ping1.png)  ![iperf](/images/iperf1.png)        |    ![topo](/images/topo1.png)         |       
-|5. Repeat steps 3 and 4 to test all modes|      |                                          
-|6. Close mininet: ```exit``` | Close the CLI with the option:  ```4``` |
-       
-
-Note 1: The ```iperf <host1> <host2>``` command will not give any results if executed with two hosts which, based on the active slices and the network topology, cannot communicate with each other. You will need to stop it manually with ```Ctrl+C```
-
-Note 2: ```pingall``` wastes time trying to get all hosts to communicate with each other: the following command is an alternative to test communication between 2 hosts:
-```<host1> ping <host2>```
+| Firts terminal                                                                     |
+|------------------------------------------------------------------------------------|
+|  1. Run: ```make```                                                                |
+|  4. Run diagnostic commands, such as ```pingall``` or ```iperf h1 h4```            |    
+|5. Repeat steps 3 and 4 to test all modes                                           |                                                
+|6. Close mininet: ```exit```                                                        |
 
 [Back to the index](#Index)
 
 ## Contacts
-
+Nicola Cappellaro - nicola.cappellaro@studenti.unitn.it
 Riccardo Zannoni - riccardo.zannoni@studenti.unitn.it
 
 [Back to the index](#Index)
