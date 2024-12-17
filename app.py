@@ -69,7 +69,7 @@ def get_traffic_stats():
         
         traffic_stats = {}
         for switch in switches:
-            dpid = switch['dpid']
+            dpid = int(switch['dpid'], 16)
             response = requests.get(f'http://localhost:8080/stats/port/{dpid}')
             if response.status_code == 200:
                 traffic_stats[dpid] = response.json().get(str(dpid), [])
