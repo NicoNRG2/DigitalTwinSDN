@@ -61,32 +61,24 @@ def index():
 def get_topology():
     return jsonify(network_topology)
 
-# Endpoint per disabilitare una porta
-@app.route('/api/disable_port', methods=['POST'])
-def disable_port():
-    data = request.json
-    dpid = data.get('dpid')
-    port_no = data.get('port_no')
-    config = data.get('config')
-    mask = data.get('mask')
-
-    if not all([dpid, port_no, config, mask]):
-        return jsonify({'error': 'Missing required fields'}), 400
-
-    payload = {
-        "dpid": dpid,
-        "port_no": port_no,
-        "config": config,
-        "mask": mask
-    }
-
-    # Invia la richiesta al controller SDN
-    response = requests.post('http://localhost:8080/stats/portdesc/modify', json=payload)
-
-    if response.status_code == 200:
-        return jsonify({'success': f'Port {port_no} on switch {dpid} disabled successfully.'})
-    else:
-        return jsonify({'error': 'Failed to disable port'}), 500
+@app.route('/api/traffic_stats', methods=['GET'])
+def get_traffic_stats():
+    try:
+        # Recupera la lista degli switch
+        switches = requests.get('http://localhost:8080/v1.0/topology/switches').json()
+        
+        traffic_stats = {}
+        for switch in switches:
+            dpid = switch['dpid']
+            response = requests.get(f'http://localhost:8080/stats/port/{dpid}')
+            if response.status_code == 200:
+                traffic_stats[dpid] = response.json().get(str(dpid), [])
+            else:
+                traffic_stats[dpid] = []
+        
+        return jsonify(traffic_stats)
+    except Exception as e:
+        return jsonify({'error': f'Failed to fetch traffic stats: {str(e)}'}), 500
 
 if __name__ == '__main__':
     # Thread separato per aggiornare la topologia

@@ -8,9 +8,29 @@
 </head>
 <body>
     <h1>SDN Digital Twin</h1>
-    <svg width="800" height="600" style="border: 1px solid black;">
-        <rect width="100%" height="100%" fill="white" stroke="black" />
-    </svg>
+    <div style="display: flex;">
+        <svg width="800" height="600" style="border: 1px solid black;">
+            <rect width="100%" height="100%" fill="white" stroke="black" />
+        </svg>
+        <div id="traffic-stats" style="margin-left: 20px; max-height: 600px; overflow-y: auto;">
+            <h2>Traffic Statistics</h2>
+            <table border="1" style="width: 100%; text-align: left;">
+                <thead>
+                    <tr>
+                        <th>Switch</th>
+                        <th>Port</th>
+                        <th>Packets Received</th>
+                        <th>Packets Sent</th>
+                        <th>Bytes Received</th>
+                        <th>Bytes Sent</th>
+                    </tr>
+                </thead>
+                <tbody id="traffic-table-body">
+                    <!-- Popolato dinamicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>    
     <script>
         const svg = d3.select("svg");
         const width = +svg.attr("width");
@@ -144,7 +164,36 @@
             }
         updateTopology();
         setInterval(updateTopology, 5000);
-        
     </script>
+    <script>
+        function updateTrafficStats() {
+            fetch('/api/traffic_stats')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById("traffic-table-body");
+                    tableBody.innerHTML = ""; // Resetta la tabella
+    
+                    for (const [dpid, ports] of Object.entries(data)) {
+                        ports.forEach(port => {
+                            const row = document.createElement("tr");
+                            row.innerHTML = `
+                                <td>${dpid}</td>
+                                <td>${port.port_no}</td>
+                                <td>${port.rx_packets}</td>
+                                <td>${port.tx_packets}</td>
+                                <td>${port.rx_bytes}</td>
+                                <td>${port.tx_bytes}</td>
+                                <td>${port.rx_dropped}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    }
+                })
+                .catch(error => console.error("Error fetching traffic stats:", error));
+        }
+    
+        setInterval(updateTrafficStats, 5000); // Aggiorna ogni 5 secondi
+        updateTrafficStats();
+    </script>    
 </body>
 </html>
