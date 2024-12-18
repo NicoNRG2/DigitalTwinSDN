@@ -1,5 +1,5 @@
 # DigitalTwin SDN
-![Topology](/images/topo2.png) 
+
 
 
 ## Index
@@ -115,13 +115,20 @@ Run the following command in the cli:
 |6. Insert the second switch you want to connect, in this example ```s2```          | 
 |7. You can repeat the previous steps with different entity                         |
 
+
+
 After step 3, the link that connect switch s1 and switch s2 is disconnected and this change will appear in the web topology.
-![clidown](/static/images/clidown.png) | ![webdown](/static/images/webdown.png)
+
+ | cli                                  | web 
+|---------------------------------------|---------------------------------------
+|![clidown](/static/images/clidown.png) | ![webdown](/static/images/webdown.png)
 
 
 After step 6, the connection between s1 and s2 return up, and the topology will be updated accordingly
 
-![cliup](/static/images/cliup.png) | ![webup](/static/images/webup.png)
+| cli                                   | web 
+|---------------------------------------|---------------------------------------
+|![cliup](/static/images/cliup.png)     | ![webup](/static/images/webup.png)
 
 
 [Back to the index](#Index)
