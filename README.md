@@ -23,7 +23,7 @@ This procedure has to be completely automated: runtime, changes to the Physical 
 
 ## Link
 
-[**Presentation Link**](https://)
+[**Presentation Link**](https://docs.google.com/presentation/d/1ULJuVBcUslIpldoW_BwQPWuk5LzKMG0_OoHpBfltg84/edit?usp=sharing)
 
 [**Demo Link**](https://) 
 
@@ -70,6 +70,9 @@ Every time the user activate/deactivate a link, the topology of the Digital Twin
 - ```/get_topology```: returns the dynamic network topology in JSON format, including switches, links, and hosts.
 - ```/link/<switch>/<host>/<status>```: allows modifying the state of a link between a switch and a host, using the link down or link up commands to disable or re-enable the link via Mininet.
 - ```get_traffic_stats()```: retrieves network traffic statistics for the links in the topology
+- The RYU Northbound API that we use are:
+  - for retrieving the topology: ```http://localhost:8080/v1.0/topology/switches``` , ```http://localhost:8080/v1.0/topology/hosts``` and ```http://localhost:8080/v1.0/topology/links```
+  - for retrieving the network traffic statistics: ```http://localhost:8080/stats/port/{dpid}``` , where dpid is the identifier of the switches.
 
 **index.html:** index.html serves as the front-end interface for displaying and interacting with the SDN Digital Twin network topology. It uses D3.js to visualize the network's switches, hosts, and links in an interactive and dynamic layout. The topology is updated periodically, reflecting the current state of the network. Additionally, the page includes a section that dynamically displays traffic statistics, such as packets and bytes received/sent for each switch and port. This allows users to monitor the real-time performance of the network.
 
