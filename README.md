@@ -49,8 +49,9 @@ Mininet considers links only the connection between swithes, so we can't affect 
 
 
 The Digital Twin of the Phisical Twin can be viewed via a web page.
-
 Every time the user activate/deactivate a link, the topology of the Digital Twin is automatically updated, according to the changes made.
+
+
 
 ![Topology](static/images/web.png) 
 
@@ -63,15 +64,25 @@ Every time the user activate/deactivate a link, the topology of the Digital Twin
 ![Project Layout](/static/images/tree.png)
 
 
-**app.py:** spiegare
+**app.py:** is the main file of the project, containing the Flask application that manages the visualization and interaction with the network topology. It defines several endpoints:
 
-**index.html:** allows to view the active topology via the web.
+- ```/```: the main page that serves the user interface.
+- ```/get_topology```: returns the dynamic network topology in JSON format, including switches, links, and hosts.
+- ```/link/<switch>/<host>/<status>```: allows modifying the state of a link between a switch and a host, using the link down or link up commands to disable or re-enable the link via Mininet.
+- ```get_traffic_stats()```: retrieves network traffic statistics for the links in the topology
 
-**cli.py:** script for interacting with the system
+**index.html:** index.html serves as the front-end interface for displaying and interacting with the SDN Digital Twin network topology. It uses D3.js to visualize the network's switches, hosts, and links in an interactive and dynamic layout. The topology is updated periodically, reflecting the current state of the network. Additionally, the page includes a section that dynamically displays traffic statistics, such as packets and bytes received/sent for each switch and port. This allows users to monitor the real-time performance of the network.
 
-**Makefile:** spiegare
+**cli.py:** is a Python script that allows the user to interact with Mininet through a command-line interface (CLI). In particular: it uses the pexpect module to automate the process of starting Mininet, managing network links, and executing commands. The script starts Mininet with a specified topology (tree,2). It then provides the user with options to activate or deactivate links between switches in the Mininet network by sending the appropriate commands.
 
-**style.css:** spiegare
+**Makefile:** automates the process of running and stopping the project. The principal target that we use are:
+- ```make```: first of all cleans the mininet states using ```sudo mn -c```. Then proceed to start the necessary processes:
+  - Ryu controller: in background with the command ```ryu-manager ryu.app.rest_topology ryu.app.ofctl_rest ryu.app.simple_switch_13 --observe-links```;
+  - The application: in backgound with the command  ```python3 app.py``` (which serves the web interface)
+  - CLI: The cli.py script is run in the foreground, with ```python3 cli.py``` , allowing the user to interact with the network via the command-line interface.
+- ```make stop```:Stops the processes started by run by killing the Ryu controller and application processes
+
+**style.css:** This file improves the visual appearance of the web interface by styling elements like tables, text, and the network topology visualization, making the page more attractive and user-friendly.
 
 
 
@@ -94,7 +105,7 @@ cd /home/comnetsemu/comnetsemu/app/DigitalTwinSDN
 
 At this point it's possible to view the digital twin topology via web at ```http://localhost:5000``` and it's possible to interact with the system by acrivate/deactivate a link using the menu shows by cli.py
 
-
+![clidown](/static/images/cli.png) 
 
 [Back to the index](#Index)
 
@@ -135,6 +146,7 @@ After step 6, the connection between s1 and s2 return up, and the topology will 
 
 ## Contacts
 Nicola Cappellaro - nicola.cappellaro@studenti.unitn.it
+
 Riccardo Zannoni - riccardo.zannoni@studenti.unitn.it
 
 [Back to the index](#Index)
