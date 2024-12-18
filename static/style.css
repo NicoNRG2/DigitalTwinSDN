@@ -1,0 +1,157 @@
+/* Contenitore principale */
+#main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra orizzontalmente il contenuto */
+    justify-content: flex-start; /* Allinea verticalmente verso l'alto */
+  
+    margin: 0;
+   
+}
+
+/* Contenitore delle sezioni inferiori */
+#content-sections {
+    display: flex;
+    justify-content: center; /* Centra orizzontalmente le sezioni */
+    align-items: flex-start; /* Allinea le sezioni in alto */
+    gap: 20px; /* Spazio tra la topologia e la tabella */
+    margin-top: 20px; /* Spazio rispetto all'intestazione */
+}
+
+
+    
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .styled-table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .styled-table th, .styled-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:nth-of-type(odd) {
+        background-color: #ffffff;
+    }
+
+    .styled-table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    #traffic-stats {
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #traffic-stats h2 {
+        text-align: center;
+        color: #444;
+        font-family: Arial, sans-serif;
+        margin-bottom: 10px;
+    }
+
+    /* Stile per il contenitore della topologia */
+#topology-container {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: inline-block; /* Per adattarlo al contenuto */
+    overflow: hidden; /* Assicura che tutto rimanga all'interno del contenitore */
+    margin-right: 20px; /* Spazio tra il contenitore e la tabella */
+}
+
+/* Stile per il titolo */
+#topology-container h2 {
+    text-align: center;
+    color: #444;
+    font-family: Arial, sans-serif;
+    margin-bottom: 10px;
+}
+
+/* Stile per il rettangolo SVG */
+svg {
+    border: none; /* Rimuove il bordo di default */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0); /* Ombreggiatura leggera */
+    border-radius: 5px; /* Angoli arrotondati */
+}
+
+/* Stile per la sezione superiore */
+#header-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0);
+    padding: 10px;
+    margin-bottom: 20px; /* Spazio tra la sezione superiore e le sezioni sottostanti */
+    width: 80%;
+    height: 50%; /* Altezza metà delle sezioni sotto */
+}
+
+#header-section h1,
+#header-section h2,
+#header-section h3 {
+    margin: 0; /* Rimuovi margini per un layout più compatto */
+    padding: 0; /* Rimuovi padding per evitare spazi indesiderati */
+    font-family: 'Arial', sans-serif; /* Imposta un font pulito e moderno */
+    text-align: center; /* Allinea il testo al centro */
+    color: #333; /* Imposta un colore di testo grigio scuro */
+}
+
+#header-section h1 {
+    font-size: 2em; /* Imposta una dimensione grande per h1 */
+    font-weight: bold; /* Imposta il grassetto per h1 */
+    color: black; /* Colore distintivo per h1 */
+    margin-bottom: 10px; /* Aggiungi spazio sotto l'h1 */
+}
+
+#header-section h2 {
+    font-size: 1.5em; /* Dimensione intermedia per h2 */
+    font-weight: 600; /* Peso leggermente più leggero rispetto a h1 */
+    color: #555; /* Colore grigio per h2 */
+    margin-bottom: 8px; /* Aggiungi spazio sotto h2 */
+}
+
+#header-section h3 {
+    font-size: 2em; /* Dimensione più piccola per h3 */
+    font-weight: 400; /* Peso normale per h3 */
+    color: rgb(228, 14, 14); 
+    padding-top: 20px;
+    margin-bottom: 6px; /* Spazio sotto h3 */
+}
+
+/* Stile per le immagini */
+#left-image, #right-image {
+    width: 175px; /* Larghezza immagine */
+    height: auto; /* Mantieni le proporzioni */
+    border-radius: 8px; /* Angoli arrotondati */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0); /* Ombreggiatura */
+}
+
+
+
+

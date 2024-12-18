@@ -13,8 +13,8 @@
 
 ## Project Description
 
-This is the project of the Softwarized and Virtualized Mobile Networks course of the University of Trento.
-The main goal of this project is to build a script that, using the RYU Northbound RestAPI and retrieving the topology anche the traffic informations, allows to generate the Digital Twin of a  SDN network.
+This is the project of the Networking (mod. 2) course of the University of Trento.
+The main goal of this project is to build a script that, using the RYU Northbound RestAPI and retrieving the topology and the traffic informations, allows to generate the Digital Twin of a  SDN network.
 This procedure has to be completely automated: runtime, changes to the Physical Twin are reproduced automatically to the Digital Twin
 
 
@@ -52,7 +52,7 @@ The Digital Twin of the Phisical Twin can be viewed via a web page.
 
 Every time the user activate/deactivate a link, the topology of the Digital Twin is automatically updated, according to the changes made.
 
-![Topology](/images/server.png) 
+![Topology](static/images/web.png) 
 
 
 
@@ -60,7 +60,7 @@ Every time the user activate/deactivate a link, the topology of the Digital Twin
 
 
 ## Project Layout
-![Project Layout](/images/tree.png)
+![Project Layout](/static/images/tree.png)
 
 
 **app.py:** spiegare
@@ -68,6 +68,10 @@ Every time the user activate/deactivate a link, the topology of the Digital Twin
 **index.html:** allows to view the active topology via the web.
 
 **cli.py:** script for interacting with the system
+
+**Makefile:** spiegare
+
+**style.css:** spiegare
 
 
 
@@ -84,28 +88,13 @@ You can run this project by following this steps:
 cd /home/comnetsemu/comnetsemu/app/DigitalTwinSDN
 ```
 
-3. In the first terminal, start the controller:
+3. Thanks to the Makefile, we need only one terminal in which we run the command  ```make```. The controller and the application starts in background (with the commands ```ryu-manager ryu.app.rest_topology ryu.app.ofctl_rest ryu.app.simple_switch_13 --observe-links``` and ```python3 app.py```, respectively), while in the foreground cli.py starts (which, as mentioned before, starts mininet with the command ```sudo mn --topo tree,2 --controller remote```).
 
-```
-ryu-manager ryu.app.rest_topology ryu.app.ofctl_rest ryu.app.simple_switch_13 --observe-links
-```
+(It's possible that you have to insert the administrator password, which is by default ```comnetsemu``` )
+
+At this point it's possible to view the digital twin topology via web at ```http://localhost:5000``` and it's possible to interact with the system by acrivate/deactivate a link using the menu shows by cli.py
 
 
-4. In the second terminal, start the application:
-
-```
-python3 app.py
-```
-Now it's possible to view the digital twin topology via web at ```http://localhost:5000```
-
-5. In the third terminal, start the CLI:
-
-```
-python3 cli.py
-```
-If required, insert the password, by default is ``` comnetsemu ```.
-
-A menù will appear. The user can follow the istruction to activate/deactivate a link.
 
 [Back to the index](#Index)
 
@@ -113,8 +102,8 @@ A menù will appear. The user can follow the istruction to activate/deactivate a
 
 This section will explain a complete usage example of this application.
 It is based on the demo video in the "Link" section.
-Suppose you have already done the installation and have 3 open terminals (as explained in the previous section).
-In the cli terminal, the last one, run the following commands:
+Suppose you have already done the installation  and have already run the command ```make``` (as explained in the previous section).
+Run the following command in the cli:
 
 | CLI                                                                               |
 |-----------------------------------------------------------------------------------|
@@ -127,9 +116,13 @@ In the cli terminal, the last one, run the following commands:
 |7. You can repeat the previous steps with different entity                         |
 
 After step 3, the link that connect switch s1 and switch s2 is disconnected and this change will appear in the web topology.
+![clidown](/static/images/clidown.png) | ![webdown](/static/images/webdown.png)
 
 
 After step 6, the connection between s1 and s2 return up, and the topology will be updated accordingly
+
+![cliup](/static/images/cliup.png) | ![webup](/static/images/webup.png)
+
 
 [Back to the index](#Index)
 
