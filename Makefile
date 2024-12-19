@@ -22,8 +22,17 @@ run:
 	$(CLI_CMD)
 
 # Arresto dei processi
+# Arresto dei processi
 stop:
 	@echo "Interrompo Ryu..."
-	@if [ -f ryu.pid ]; then kill $$(cat ryu.pid) && rm ryu.pid; fi
+	@if [ -f ryu.pid ]; then \
+		PID=$$(cat ryu.pid); \
+		if ps -p $$PID > /dev/null; then kill $$PID; fi; \
+		rm ryu.pid; \
+	fi
 	@echo "Interrompo app.py..."
-	@if [ -f app.pid ]; then kill $$(cat app.pid) && rm app.pid; fi
+	@if [ -f app.pid ]; then \
+		PID=$$(cat app.pid); \
+		if ps -p $$PID > /dev/null; then kill $$PID; fi; \
+		rm app.pid; \
+	fi
